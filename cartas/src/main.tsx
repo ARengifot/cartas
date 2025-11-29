@@ -11,20 +11,32 @@ function App() {
     const initializeApp = async () => {
       try {
         if (Capacitor.isNativePlatform()) {
-          // Show splash screen in native app
-          await SplashScreen.show({
-            showDuration: 3000,
-            autoHide: true,
-          });
+          try {
+            await SplashScreen.show({
+              showDuration: 3000,
+              autoHide: true,
+            });
+          } catch (err) {
+            console.log('SplashScreen error (non-critical):', err);
+          }
         }
 
-        // Simulate loading delay
+        // Set timeout to ensure we exit loading screen
         setTimeout(() => {
           setIsLoading(false);
           if (Capacitor.isNativePlatform()) {
-            SplashScreen.hide();
+            try {
+              SplashScreen.hide();
+            } catch (err) {
+              console.log('SplashScreen hide error:', err);
+            }
           }
         }, 2500);
+
+        // Force exit loading after 5 seconds max
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 5000);
       } catch (error) {
         console.error('Error initializing app:', error);
         setIsLoading(false);
