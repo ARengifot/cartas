@@ -1,5 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Lock, BookOpen, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { Heart, Lock, BookOpen, ChevronLeft, ChevronRight, Sparkles, Volume2, VolumeX } from 'lucide-react';
+
+// Simple music management hook
+const useBackgroundMusic = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Create audio element if it doesn't exist
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.3; // 30% volume
+      audioRef.current.src = 'https://assets.mixkit.co/active_storage/sfx/2717/2717-preview.mp3'; // Soft background music
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
+
+  const toggleMusic = async () => {
+    if (!audioRef.current) return;
+    
+    try {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        await audioRef.current.play();
+        setIsPlaying(true);
+      }
+    } catch (error) {
+      console.log('Autoplay blocked by browser. Click again to play.');
+    }
+  };
+
+  return { isPlaying, toggleMusic };
+};
 
 // Componente de Partículas flotantes
 const FloatingPetals = () => {
@@ -91,8 +131,7 @@ const LoveLetterBook = () => {
   const [selectedLetter, setSelectedLetter] = useState(null);
   const [pageTransition, setPageTransition] = useState(false);
   const [showParticles, setShowParticles] = useState(true);
-  const [musicPlaying, setMusicPlaying] = useState(true);
-  const audioRef = React.useRef(null);
+  const { isPlaying, toggleMusic } = useBackgroundMusic();
 
   const startDate = new Date('2025-11-27');
   const today = new Date();
@@ -257,7 +296,19 @@ const LoveLetterBook = () => {
   // Cover View
   if (currentView === 'cover') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 flex items-center justify-center p-4 relative">
+        {/* Music toggle button */}
+        <button
+          onClick={toggleMusic}
+          className="absolute top-6 right-6 p-3 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:bg-pink-50"
+        >
+          {isPlaying ? (
+            <Volume2 className="w-6 h-6 text-pink-500" />
+          ) : (
+            <VolumeX className="w-6 h-6 text-gray-400" />
+          )}
+        </button>
+
         <div className={`max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 transition-all duration-500 ${pageTransition ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
           <div className="text-center space-y-6">
             <div className="relative">
@@ -303,8 +354,33 @@ const LoveLetterBook = () => {
   // Index View
   if (currentView === 'index') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 p-4">
-        <div className={`max-w-4xl mx-auto transition-all duration-500 ${pageTransition ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
+      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 p-4 relative">
+        {/* Falling petals */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+          {Array.from({ length: 15 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute text-pink-300 opacity-60"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `-20px`,
+                fontSize: `${16 + Math.random() * 12}px`,
+                animation: `fall ${12 + Math.random() * 8}s linear infinite`,
+                animationDelay: `${i * 0.8}s`,
+              }}
+            >
+              🌸
+            </div>
+          ))}
+        </div>
+        <style>{`
+          @keyframes fall {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+          }
+        `}</style>
+
+        <div className={`max-w-4xl mx-auto transition-all duration-500 relative z-10 ${pageTransition ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
           <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-8">
             <div className="flex items-center justify-between mb-6">
               <button
@@ -313,15 +389,23 @@ const LoveLetterBook = () => {
                 style={{fontFamily: 'cursive'}}
               >
                 <ChevronLeft className="w-5 h-5" />
-                Volver
+                Atrás
               </button>
-              <h2 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500" style={{fontFamily: 'cursive'}}>
-                Índice de Cartas
+              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500" style={{fontFamily: 'cursive'}}>
+                Mis Cartas
               </h2>
-              <div className="w-20"></div>
+              <button
+                onClick={toggleMusic}
+                className="p-2 rounded-full hover:bg-pink-50 transition-colors"
+              >
+                {isPlaying ? (
+                  <Volume2 className="w-5 h-5 text-pink-500" />
+                ) : (
+                  <VolumeX className="w-5 h-5 text-gray-400" />
+                )}
+              </button>
             </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {letters.map((letter) => {
                 const unlocked = isLetterUnlocked(letter.id);
                 const daysUntil = getDaysUntilUnlock(letter.id);
@@ -367,8 +451,33 @@ const LoveLetterBook = () => {
   // Letter View
   if (currentView === 'letter' && selectedLetter) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 p-4">
-        <div className={`max-w-2xl mx-auto transition-all duration-500 ${pageTransition ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
+      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 p-4 relative">
+        {/* Falling petals */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+          {Array.from({ length: 15 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute text-pink-300 opacity-60"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `-20px`,
+                fontSize: `${16 + Math.random() * 12}px`,
+                animation: `fall ${12 + Math.random() * 8}s linear infinite`,
+                animationDelay: `${i * 0.8}s`,
+              }}
+            >
+              🌸
+            </div>
+          ))}
+        </div>
+        <style>{`
+          @keyframes fall {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+          }
+        `}</style>
+
+        <div className={`max-w-2xl mx-auto transition-all duration-500 relative z-10 ${pageTransition ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
           <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 relative overflow-hidden">
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-200 to-red-200 rounded-full blur-3xl opacity-50"></div>
@@ -389,7 +498,16 @@ const LoveLetterBook = () => {
                   <Heart className="w-5 h-5 fill-current" />
                   <span className="font-bold">Carta {selectedLetter.id}</span>
                 </div>
-                <div className="w-20"></div>
+                <button
+                  onClick={toggleMusic}
+                  className="p-2 rounded-full hover:bg-pink-50 transition-colors"
+                >
+                  {isPlaying ? (
+                    <Volume2 className="w-5 h-5 text-pink-500" />
+                  ) : (
+                    <VolumeX className="w-5 h-5 text-gray-400" />
+                  )}
+                </button>
               </div>
 
               {/* Title */}
