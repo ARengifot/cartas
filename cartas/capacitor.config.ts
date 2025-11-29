@@ -9,8 +9,8 @@ const config: CapacitorConfig = {
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 2500,
-      launchAutoHide: true,
+      launchShowDuration: 0,
+      launchAutoHide: false,
       backgroundColor: '#1e3a8a',
       showSpinner: false,
     },
@@ -19,10 +19,6 @@ const config: CapacitorConfig = {
       backgroundColor: '#1e3a8a',
       overlaysWebView: false,
     },
-    Keyboard: {
-      resize: 'none',
-      resizeOnFullScreen: true,
-    }
   }
 };
 
