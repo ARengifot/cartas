@@ -20,6 +20,12 @@ workflows:
           cd cartas
           npx cap add android || true
           npx cap sync android
+          # Copy PNG icon to all mipmap folders
+          cp ic_launcher.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          cp ic_launcher.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          cp ic_launcher.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          cp ic_launcher.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          cp ic_launcher.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
       - name: Build APK
         script: |
           cd cartas/android
