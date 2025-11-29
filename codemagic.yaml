@@ -11,7 +11,7 @@ workflows:
         - push
     scripts:
       - name: Install dependencies
-        script: npm ci
+        script: npm install
       - name: Build web
         script: npm run build
       - name: Setup Android
