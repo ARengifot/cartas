@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
+import { Heart, Sparkles } from 'lucide-react';
 
 interface SplashScreenProps {
   isLoading?: boolean;
@@ -16,16 +16,12 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ isLoading = true }) => {
       </div>
 
       <div className="z-10 text-center space-y-8 max-w-md">
-        {/* Photo of couple */}
+        {/* Logo with heart */}
         <div className="flex justify-center">
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-sky-300 rounded-full blur-2xl opacity-30 animate-pulse"></div>
-            <div className="relative rounded-full p-2 w-40 h-40 flex items-center justify-center overflow-hidden border-4 border-sky-300">
-              <img 
-                src="/Amorcito1.jpg" 
-                alt="Nosotros" 
-                className="w-full h-full object-cover rounded-full"
-              />
+            <div className="relative bg-gradient-to-br from-blue-500 to-sky-400 rounded-full p-8 w-32 h-32 flex items-center justify-center">
+              <Heart className="w-16 h-16 text-white fill-white animate-heartbeat-custom" />
             </div>
           </div>
         </div>
