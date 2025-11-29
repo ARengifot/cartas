@@ -296,14 +296,14 @@ const LoveLetterBook = () => {
   // Cover View
   if (currentView === 'cover') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 flex items-center justify-center p-4 relative">
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 flex items-center justify-center p-4 relative">
         {/* Music toggle button */}
         <button
           onClick={toggleMusic}
-          className="absolute top-6 right-6 p-3 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:bg-pink-50"
+          className="absolute top-6 right-6 p-3 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:bg-blue-50"
         >
           {isPlaying ? (
-            <Volume2 className="w-6 h-6 text-pink-500" />
+            <Volume2 className="w-6 h-6 text-blue-600" />
           ) : (
             <VolumeX className="w-6 h-6 text-gray-400" />
           )}
@@ -354,7 +354,7 @@ const LoveLetterBook = () => {
   // Index View
   if (currentView === 'index') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 p-4 relative">
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 p-4 relative">
         {/* Falling petals - in FRONT */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-40">
           {Array.from({ length: 15 }).map((_, i) => (
@@ -451,7 +451,7 @@ const LoveLetterBook = () => {
   // Letter View
   if (currentView === 'letter' && selectedLetter) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 p-4 relative">
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 p-4 relative">
         {/* Falling petals - in FRONT */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-40">
           {Array.from({ length: 15 }).map((_, i) => (

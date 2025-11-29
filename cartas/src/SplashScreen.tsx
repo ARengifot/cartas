@@ -7,7 +7,7 @@ interface SplashScreenProps {
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ isLoading = true }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-200 via-rose-200 to-red-200 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Falling petals - in FRONT */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-50">
         {Array.from({ length: 20 }).map((_, i) => (

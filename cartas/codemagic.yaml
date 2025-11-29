@@ -44,11 +44,12 @@ workflows:
           # Also create a high-res version for anydpi-v26
           mkdir -p android/app/src/main/res/mipmap-anydpi-v26
           convert Snoopy.jpg -resize 108x108 android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.png
-      - name: Copy audio file
+      - name: Copy audio file to assets
         script: |
           cd cartas
           mkdir -p android/app/src/main/assets
-          cp mixkit-romantic-659.mp3 android/app/src/main/assets/mixkit-romantic-659.mp3
+          # Copy from public folder (which gets built into dist)
+          cp public/mixkit-romantic-659.mp3 android/app/src/main/assets/mixkit-romantic-659.mp3 || true
         script: |
           cd android
           ./gradlew assembleDebug
