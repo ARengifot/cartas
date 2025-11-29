@@ -15,21 +15,26 @@ workflows:
           cd cartas
           npm install
           npm run build
-      - name: Setup Android and icons
+      - name: Setup Android
         script: |
           cd cartas
           npx cap add android || true
           npx cap sync android
-          # Copy PNG icon to all mipmap folders using bash
-          for dir in mipmap-hdpi mipmap-mdpi mipmap-xhdpi mipmap-xxhdpi mipmap-xxxhdpi; do
-            if [ -d "android/app/src/main/res/$dir" ]; then
-              cp -f ic_launcher.png "android/app/src/main/res/$dir/ic_launcher.png" 2>/dev/null || echo "Icon copied to $dir"
-            fi
-          done
+          # Copy icon
+          mkdir -p android/app/src/main/res/mipmap-hdpi
+          mkdir -p android/app/src/main/res/mipmap-mdpi
+          mkdir -p android/app/src/main/res/mipmap-xhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxxhdpi
+          cp ic_launcher.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          cp ic_launcher.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          cp ic_launcher.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          cp ic_launcher.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          cp ic_launcher.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
       - name: Build APK
         script: |
           cd cartas/android
           chmod +x ./gradlew
-          ./gradlew clean assembleDebug
+          ./gradlew assembleDebug
     artifacts:
       - cartas/android/app/build/outputs/apk/debug/app-debug.apk
