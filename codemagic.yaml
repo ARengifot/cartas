@@ -4,9 +4,8 @@ workflows:
     instance_type: mac_mini
     max_build_duration: 120
     environment:
-      java_version: temurin-11
-      ndk_version: r21e
-      node: 16
+      vars:
+        PACKAGE_NAME: "com.cartasParaMiAmorcito.app"
     triggering:
       events:
         - push
