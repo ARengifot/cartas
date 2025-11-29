@@ -45,7 +45,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ isLoading = true }) => {
               <div className="w-3 h-3 bg-blue-300 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
             </div>
             <p className="text-blue-200 text-sm" style={{ fontFamily: 'cursive' }}>
-              Cargando tus cartas...
+              Preparando...
             </p>
           </div>
         )}
