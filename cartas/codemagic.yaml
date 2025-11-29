@@ -1,0 +1,36 @@
+workflows:
+  android-workflow:
+    name: Android Build
+    instance_type: mac_mini
+    max_build_duration: 120
+    environment:
+      android_signing:
+        - cartas_key
+      vars:
+        PACKAGE_NAME: "com.cartasParaMiAmorcito.app"
+    scripts:
+      - name: Install Node.js dependencies
+        script: |
+          npm install
+      - name: Build web assets
+        script: |
+          npm run build
+      - name: Add Android platform
+        script: |
+          npx cap add android
+      - name: Sync Capacitor
+        script: |
+          npx cap sync android
+      - name: Build APK
+        script: |
+          cd android
+          ./gradlew assembleDebug
+    artifacts:
+      - android/app/build/outputs/apk/debug/app-debug.apk
+    publishing:
+      email:
+        recipients:
+          - $PERSONAL_EMAIL
+        notify:
+          success: true
+          failure: true
