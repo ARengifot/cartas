@@ -12,7 +12,7 @@ const useBackgroundMusic = () => {
       audioRef.current = new Audio();
       audioRef.current.loop = true;
       audioRef.current.volume = 0.3; // 30% volume
-      audioRef.current.src = 'https://assets.mixkit.co/active_storage/sfx/2717/2717-preview.mp3'; // Soft background music
+      audioRef.current.src = './mixkit-romantic-659.mp3'; // Romantic background music
     }
 
     return () => {
@@ -355,8 +355,8 @@ const LoveLetterBook = () => {
   if (currentView === 'index') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 p-4 relative">
-        {/* Falling petals */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {/* Falling petals - in FRONT */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-40">
           {Array.from({ length: 15 }).map((_, i) => (
             <div
               key={i}
@@ -452,8 +452,8 @@ const LoveLetterBook = () => {
   if (currentView === 'letter' && selectedLetter) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 p-4 relative">
-        {/* Falling petals */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {/* Falling petals - in FRONT */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-40">
           {Array.from({ length: 15 }).map((_, i) => (
             <div
               key={i}

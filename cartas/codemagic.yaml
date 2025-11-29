@@ -21,7 +21,24 @@ workflows:
       - name: Sync Capacitor
         script: |
           npx cap sync android
-      - name: Build APK
+      - name: Copy app icon to all mipmap directories
+        script: |
+          cd cartas
+          # Copy icon to all mipmap folders
+          for mipmap_dir in android/app/src/main/res/mipmap-*; do
+            if [ -d "$mipmap_dir" ]; then
+              cp ic_launcher.png "$mipmap_dir/ic_launcher.png"
+            fi
+          done
+          # Also copy to mipmap-anydpi-v26 if it exists
+          if [ -d "android/app/src/main/res/mipmap-anydpi-v26" ]; then
+            cp ic_launcher.png "android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.png"
+          fi
+      - name: Copy audio file
+        script: |
+          cd cartas
+          mkdir -p android/app/src/main/assets
+          cp mixkit-romantic-659.mp3 android/app/src/main/assets/mixkit-romantic-659.mp3
         script: |
           cd android
           ./gradlew assembleDebug

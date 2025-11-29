@@ -7,9 +7,9 @@ interface SplashScreenProps {
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ isLoading = true }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-slate-800 to-blue-950 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Falling petals */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="min-h-screen bg-gradient-to-br from-pink-200 via-rose-200 to-red-200 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Falling petals - in FRONT */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-50">
         {Array.from({ length: 20 }).map((_, i) => (
           <div
             key={i}
@@ -36,16 +36,16 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ isLoading = true }) => {
 
       <div className="z-10 text-center space-y-8 max-w-md">
         {/* Photo of couple */}
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-8">
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-red-300 rounded-full blur-2xl opacity-40 animate-pulse"></div>
-            <div className="relative rounded-full p-3 w-44 h-44 flex items-center justify-center overflow-hidden border-4 border-pink-300 shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-red-300 rounded-full blur-2xl opacity-50 animate-pulse"></div>
+            <div className="relative rounded-full p-1 w-56 h-56 flex items-center justify-center overflow-hidden border-4 border-pink-400 shadow-2xl bg-white">
               <img 
                 src="./Amorcito1.jpg" 
                 alt="Nosotros" 
                 className="w-full h-full object-cover rounded-full"
                 onError={(e) => {
-                  // Fallback if image doesn't load
+                  console.log('Image not loaded');
                   e.currentTarget.style.display = 'none';
                 }}
               />
