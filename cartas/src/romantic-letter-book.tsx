@@ -91,6 +91,8 @@ const LoveLetterBook = () => {
   const [selectedLetter, setSelectedLetter] = useState(null);
   const [pageTransition, setPageTransition] = useState(false);
   const [showParticles, setShowParticles] = useState(true);
+  const [musicPlaying, setMusicPlaying] = useState(true);
+  const audioRef = React.useRef(null);
 
   const startDate = new Date('2025-11-27');
   const today = new Date();
